@@ -136,7 +136,12 @@ export const MemberDashboard: React.FC = () => {
       const res = await store.updateMemberProfile({ ...profile, id: memberId });
       if (res.status === 'success') {
         setSuccess(true);
-        setTimeout(() => setSuccess(false), 3000);
+        setTimeout(() => {
+          setSuccess(false);
+          if (memberId) {
+            navigate(`/profile/${memberId}`);
+          }
+        }, 1500);
       } else {
         setError(res.message || 'Failed to update profile.');
       }

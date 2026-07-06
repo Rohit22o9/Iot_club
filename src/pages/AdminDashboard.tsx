@@ -448,7 +448,7 @@ export const AdminDashboard: React.FC = () => {
                         activeTab === 'faculty' ? store.faculty :
                         activeTab === 'alumni' ? store.alumni : store.events).map((x: any) => (
                           <div key={x.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', background: '#f8fafc', borderRadius: '4px', border: '1px solid #cbd5e1' }} className="alumni-row">
-                            <span style={{ color: 'var(--text-white)', fontWeight: 500 }}>{x.title || x.name}</span>
+                            <span style={{ color: '#1e293b', fontWeight: 500 }}>{x.title || x.name}</span>
                             <div style={{ display: 'flex', gap: '12px' }}>
                               <button onClick={() => openEditModal(x.id)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer' }}><Edit size={14} /></button>
                               <button onClick={() => handleDelete(x.id)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer' }}><Trash2 size={14} /></button>
@@ -668,8 +668,60 @@ export const AdminDashboard: React.FC = () => {
                 </>
               )}
 
+              {/* Gallery Form Fields */}
+              {activeTab === 'gallery' && (
+                <>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-light)', marginBottom: '4px' }}>Title</label>
+                    <input type="text" required value={galleryForm.title} onChange={(e) => setGalleryForm({...galleryForm, title: e.target.value})} style={{ width: '100%', padding: '8px 12px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '4px', color: 'var(--text-white)' }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-light)', marginBottom: '4px' }}>Category</label>
+                    <select value={galleryForm.category} onChange={(e) => setGalleryForm({...galleryForm, category: e.target.value as any})} style={{ width: '100%', padding: '8px 12px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '4px', color: 'var(--text-white)' }}>
+                      <option value="workshops">Workshops</option>
+                      <option value="competitions">Competitions</option>
+                      <option value="seminars">Seminars</option>
+                      <option value="guest lectures">Guest Lectures</option>
+                      <option value="events">Events</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-light)', marginBottom: '4px' }}>Upload Image</label>
+                    <input type="file" accept="image/*" onChange={(e) => handlePhotoUpload(e, (url) => setGalleryForm({...galleryForm, image: url}))} style={{ color: 'var(--text-gray)', fontSize: '0.85rem' }} />
+                  </div>
+                </>
+              )}
+
+              {/* Faculty Form Fields */}
+              {activeTab === 'faculty' && (
+                <>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-light)', marginBottom: '4px' }}>Name</label>
+                    <input type="text" required value={facultyForm.name} onChange={(e) => setFacultyForm({...facultyForm, name: e.target.value})} style={{ width: '100%', padding: '8px 12px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '4px', color: 'var(--text-white)' }} />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-light)', marginBottom: '4px' }}>Role / Designation</label>
+                    <input type="text" required value={facultyForm.role} onChange={(e) => setFacultyForm({...facultyForm, role: e.target.value})} style={{ width: '100%', padding: '8px 12px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '4px', color: 'var(--text-white)' }} />
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-light)', marginBottom: '4px' }}>Email</label>
+                      <input type="email" required value={facultyForm.email} onChange={(e) => setFacultyForm({...facultyForm, email: e.target.value})} style={{ width: '100%', padding: '8px 12px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '4px', color: 'var(--text-white)' }} />
+                    </div>
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-light)', marginBottom: '4px' }}>LinkedIn Link</label>
+                      <input type="url" value={facultyForm.linkedin || ''} onChange={(e) => setFacultyForm({...facultyForm, linkedin: e.target.value})} style={{ width: '100%', padding: '8px 12px', background: '#ffffff', border: '1px solid #cbd5e1', borderRadius: '4px', color: 'var(--text-white)' }} />
+                    </div>
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-light)', marginBottom: '4px' }}>Upload Photo</label>
+                    <input type="file" accept="image/*" onChange={(e) => handlePhotoUpload(e, (url) => setFacultyForm({...facultyForm, photo: url}))} style={{ color: 'var(--text-gray)', fontSize: '0.85rem' }} />
+                  </div>
+                </>
+              )}
+
               {/* Simple fallback inputs */}
-              {!['members', 'projects', 'achievements'].includes(activeTab) && (
+              {!['members', 'projects', 'achievements', 'gallery', 'faculty'].includes(activeTab) && (
                 <div style={{ color: 'var(--text-light)', fontSize: '0.85rem' }}>
                   <p style={{ marginBottom: '8px' }}>Metadata catalog fields:</p>
                   <div>

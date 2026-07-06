@@ -39,35 +39,52 @@ export const MemberProfile: React.FC = () => {
 
   const handleDownloadResume = () => {
     setDownloading(true);
-    setTimeout(() => {
-      const element = document.createElement("a");
-      const file = new Blob([
-        `==================================================\n`,
-        `RESUME: ${(member.name || '').toUpperCase()}\n`,
-        `Position: ${member.position} (${member.year} Year Student)\n`,
-        `Email: ${member.socials?.email || 'N/A'}\n`,
-        `Phone: ${member.socials?.phone || 'N/A'}\n`,
-        `==================================================\n\n`,
-        `BIOGRAPHY:\n${member.bio || ''}\n\n`,
-        `EDUCATION:\n${(member.education || []).join('\n')}\n\n`,
-        `TECHNICAL SKILLS:\n${(member.skillsTech || member.skills || []).join(', ')}\n\n`,
-        `SOFT SKILLS:\n${(member.skillsSoft || []).join(', ')}\n\n`,
-        `PROJECTS:\n`,
-        (member.projects || []).map(p => `- ${p.name}: ${p.description}`).join('\n'),
-        `\n\nACHIEVEMENTS:\n`,
-        (member.achievements || []).map(a => `- ${a.title} (${a.year})`).join('\n'),
-        `\n\nCERTIFICATIONS:\n`,
-        (member.certifications || []).map(c => `- ${c}`).join('\n'),
-        `\n\nGenerated via IoT Innovation Club Portal`
-      ], { type: 'text/plain' });
-      
-      element.href = URL.createObjectURL(file);
-      element.download = `${(member.name || '').replace(/\s+/g, '_')}_Resume.txt`;
-      document.body.appendChild(element);
-      element.click();
-      document.body.removeChild(element);
-      setDownloading(false);
-    }, 1000);
+    const resumeUrl = member.resumeUrl;
+    if (resumeUrl) {
+      setTimeout(() => {
+        const element = document.createElement("a");
+        element.href = resumeUrl;
+        element.download = member.resumeName || `${(member.name || '').replace(/\s+/g, '_')}_Resume.pdf`;
+        // Handle cross-origin or open in tab if download is blocked
+        if (!resumeUrl.startsWith('data:')) {
+          element.target = "_blank";
+        }
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+        setDownloading(false);
+      }, 500);
+    } else {
+      setTimeout(() => {
+        const element = document.createElement("a");
+        const file = new Blob([
+          `==================================================\n`,
+          `RESUME: ${(member.name || '').toUpperCase()}\n`,
+          `Position: ${member.position} (${member.year} Year Student)\n`,
+          `Email: ${member.socials?.email || 'N/A'}\n`,
+          `Phone: ${member.socials?.phone || 'N/A'}\n`,
+          `==================================================\n\n`,
+          `BIOGRAPHY:\n${member.bio || ''}\n\n`,
+          `EDUCATION:\n${(member.education || []).join('\n')}\n\n`,
+          `TECHNICAL SKILLS:\n${(member.skillsTech || member.skills || []).join(', ')}\n\n`,
+          `SOFT SKILLS:\n${(member.skillsSoft || []).join(', ')}\n\n`,
+          `PROJECTS:\n`,
+          (member.projects || []).map(p => `- ${p.name}: ${p.description}`).join('\n'),
+          `\n\nACHIEVEMENTS:\n`,
+          (member.achievements || []).map(a => `- ${a.title} (${a.year})`).join('\n'),
+          `\n\nCERTIFICATIONS:\n`,
+          (member.certifications || []).map(c => `- ${c}`).join('\n'),
+          `\n\nGenerated via IoT Innovation Club Portal`
+        ], { type: 'text/plain' });
+        
+        element.href = URL.createObjectURL(file);
+        element.download = `${(member.name || '').replace(/\s+/g, '_')}_Resume.txt`;
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+        setDownloading(false);
+      }, 1000);
+    }
   };
 
   return (

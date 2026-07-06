@@ -432,13 +432,13 @@ export const Home: React.FC = () => {
             borderRadius: '6px',
             border: '1px solid var(--border-glass)'
           }}>
-            <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', color: 'var(--text-white)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ fontSize: '1.25rem', marginBottom: '12px', color: '#1e293b', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Cpu size={20} style={{ color: 'var(--primary)' }} /> Prototyping Chapter
             </h3>
-            <p style={{ color: 'var(--text-light)', fontSize: '0.92rem', lineHeight: 1.5, marginBottom: '12px' }}>
+            <p style={{ color: '#475569', fontSize: '0.92rem', lineHeight: 1.5, marginBottom: '12px' }}>
               {homepageContent.aboutIntro}
             </p>
-            <p style={{ color: 'var(--text-light)', fontSize: '0.92rem', lineHeight: 1.5 }}>
+            <p style={{ color: '#475569', fontSize: '0.92rem', lineHeight: 1.5 }}>
               Our labs provide students with test equipment, microcontrollers, and computing modules. We guide members through design schematic entries, PCB layouts, native embedded software SDKs, and data aggregations.
             </p>
           </div>
@@ -460,8 +460,8 @@ export const Home: React.FC = () => {
                 <Globe size={18} />
               </div>
               <div>
-                <h4 style={{ fontSize: '1rem', color: 'var(--text-white)', marginBottom: '4px' }}>Vision Statement</h4>
-                <p style={{ color: 'var(--text-light)', fontSize: '0.88rem', lineHeight: 1.4 }}>{homepageContent.aboutVision}</p>
+                <h4 style={{ fontSize: '1rem', color: '#1e293b', marginBottom: '4px' }}>Vision Statement</h4>
+                <p style={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.4 }}>{homepageContent.aboutVision}</p>
               </div>
             </div>
 
@@ -481,8 +481,8 @@ export const Home: React.FC = () => {
                 <Layers size={18} />
               </div>
               <div>
-                <h4 style={{ fontSize: '1rem', color: 'var(--text-white)', marginBottom: '4px' }}>Mission Statement</h4>
-                <p style={{ color: 'var(--text-light)', fontSize: '0.88rem', lineHeight: 1.4 }}>{homepageContent.aboutMission}</p>
+                <h4 style={{ fontSize: '1rem', color: '#1e293b', marginBottom: '4px' }}>Mission Statement</h4>
+                <p style={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.4 }}>{homepageContent.aboutMission}</p>
               </div>
             </div>
           </div>
@@ -490,12 +490,12 @@ export const Home: React.FC = () => {
 
         {/* Objectives */}
         <div className="glass-panel" style={{ padding: '20px', background: '#ffffff', borderRadius: '6px' }}>
-          <h4 style={{ fontSize: '1.1rem', color: 'var(--text-white)', marginBottom: '12px', textAlign: 'center' }}>Key Objectives</h4>
+          <h4 style={{ fontSize: '1.1rem', color: '#1e293b', marginBottom: '12px', textAlign: 'center' }}>Key Objectives</h4>
           <div className="grid-2" style={{ gap: '12px' }}>
             {homepageContent.aboutObjectives.map((obj, i) => (
               <div key={i} style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
                 <ChevronRight size={14} style={{ color: 'var(--primary)', marginTop: '3px', flexShrink: 0 }} />
-                <p style={{ color: 'var(--text-light)', fontSize: '0.88rem', lineHeight: 1.4 }}>{obj}</p>
+                <p style={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.4 }}>{obj}</p>
               </div>
             ))}
           </div>
@@ -519,10 +519,10 @@ export const Home: React.FC = () => {
             { target: 8, label: 'Corporate Partners', borderClass: 'card-top-green' }
           ].map((stat, i) => (
             <div key={i} className={`glass-panel ${stat.borderClass}`} style={{ padding: '20px 10px', background: '#ffffff', borderRadius: '6px' }}>
-              <div style={{ fontSize: '2.2rem', fontWeight: 700, color: 'var(--text-white)', fontFamily: 'var(--font-heading)' }}>
+              <div style={{ fontSize: '2.2rem', fontWeight: 700, color: '#1e293b', fontFamily: 'var(--font-heading)' }}>
                 <Counter target={stat.target} suffix="+" />
               </div>
-              <p style={{ color: 'var(--text-light)', fontWeight: 600, marginTop: '4px', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.5px' }}>
+              <p style={{ color: '#475569', fontWeight: 600, marginTop: '4px', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.5px' }}>
                 {stat.label}
               </p>
             </div>
@@ -606,10 +606,10 @@ export const Home: React.FC = () => {
                     <span style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase', color: 'var(--primary)' }}>
                       {ach.award}
                     </span>
-                    <span style={{ color: 'var(--text-light)', fontSize: '0.78rem' }}>{ach.date}</span>
+                    <span style={{ color: '#475569', fontSize: '0.78rem' }}>{ach.date}</span>
                   </div>
-                  <h3 style={{ fontSize: '1.05rem', color: 'var(--text-white)', marginBottom: '4px' }}>{ach.title}</h3>
-                  <p style={{ color: 'var(--text-light)', fontSize: '0.85rem', lineHeight: 1.4 }}>{ach.description}</p>
+                  <h3 style={{ fontSize: '1.05rem', color: '#1e293b', marginBottom: '4px' }}>{ach.title}</h3>
+                  <p style={{ color: '#475569', fontSize: '0.85rem', lineHeight: 1.4 }}>{ach.description}</p>
                 </div>
               </div>
             );
@@ -649,20 +649,20 @@ export const Home: React.FC = () => {
                         padding: '2px 6px',
                         background: '#f1f5f9',
                         borderRadius: '3px',
-                        color: 'var(--text-light)'
+                        color: '#475569'
                       }}>
                         {t}
                       </span>
                     ))}
                   </div>
 
-                  <h3 style={{ fontSize: '1.15rem', color: 'var(--text-white)', marginBottom: '6px' }}>{proj.title}</h3>
-                  <p style={{ color: 'var(--text-light)', fontSize: '0.88rem', lineHeight: 1.45, marginBottom: '15px', flexGrow: 1 }}>
+                  <h3 style={{ fontSize: '1.15rem', color: '#1e293b', marginBottom: '6px' }}>{proj.title}</h3>
+                  <p style={{ color: '#475569', fontSize: '0.88rem', lineHeight: 1.45, marginBottom: '15px', flexGrow: 1 }}>
                     {proj.description}
                   </p>
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '15px' }}>
-                    <span style={{ fontSize: '0.78rem', color: 'var(--text-light)', fontWeight: 600 }}>Squad:</span>
+                    <span style={{ fontSize: '0.78rem', color: '#475569', fontWeight: 600 }}>Squad:</span>
                     <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
                       {proj.team.map((name, i) => (
                         <span key={i} style={{
@@ -837,8 +837,8 @@ export const Home: React.FC = () => {
             background: '#ffffff',
             borderRadius: '6px',
           }}>
-            <h3 style={{ fontSize: '1.2rem', color: 'var(--text-white)', marginBottom: '8px' }}>Second Year (SE)</h3>
-            <p style={{ color: 'var(--text-light)', fontSize: '0.85rem', marginBottom: '15px', lineHeight: 1.4 }}>
+            <h3 style={{ fontSize: '1.2rem', color: '#1e293b', marginBottom: '8px' }}>Second Year (SE)</h3>
+            <p style={{ color: '#475569', fontSize: '0.85rem', marginBottom: '15px', lineHeight: 1.4 }}>
               Learning fundamental breadboard setups, sensor protocols, and C++ logic.
             </p>
             <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--gdg-green)', marginBottom: '15px' }}>
@@ -856,8 +856,8 @@ export const Home: React.FC = () => {
             background: '#ffffff',
             borderRadius: '6px',
           }}>
-            <h3 style={{ fontSize: '1.2rem', color: 'var(--text-white)', marginBottom: '8px' }}>Third Year (TE)</h3>
-            <p style={{ color: 'var(--text-light)', fontSize: '0.85rem', marginBottom: '15px', lineHeight: 1.4 }}>
+            <h3 style={{ fontSize: '1.2rem', color: '#1e293b', marginBottom: '8px' }}>Third Year (TE)</h3>
+            <p style={{ color: '#475569', fontSize: '0.85rem', marginBottom: '15px', lineHeight: 1.4 }}>
               Developing firmware, multithreading operations, and MQTT server routing.
             </p>
             <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--primary)', marginBottom: '15px' }}>
@@ -875,8 +875,8 @@ export const Home: React.FC = () => {
             background: '#ffffff',
             borderRadius: '6px',
           }}>
-            <h3 style={{ fontSize: '1.2rem', color: 'var(--text-white)', marginBottom: '8px' }}>Final Year (BE)</h3>
-            <p style={{ color: 'var(--text-light)', fontSize: '0.85rem', marginBottom: '15px', lineHeight: 1.4 }}>
+            <h3 style={{ fontSize: '1.2rem', color: '#1e293b', marginBottom: '8px' }}>Final Year (BE)</h3>
+            <p style={{ color: '#475569', fontSize: '0.85rem', marginBottom: '15px', lineHeight: 1.4 }}>
               Providing thesis topics, code reviews, and industry collaborations.
             </p>
             <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--gdg-red)', marginBottom: '15px' }}>
@@ -919,14 +919,14 @@ export const Home: React.FC = () => {
                 }}
               />
               <div>
-                <h3 style={{ fontSize: '1.05rem', color: 'var(--text-white)', marginBottom: '3px' }}>{fac.name}</h3>
-                <p style={{ color: 'var(--text-light)', fontWeight: 500, fontSize: '0.82rem', marginBottom: '8px' }}>{fac.role}</p>
+                <h3 style={{ fontSize: '1.05rem', color: '#1e293b', marginBottom: '3px' }}>{fac.name}</h3>
+                <p style={{ color: '#475569', fontWeight: 500, fontSize: '0.82rem', marginBottom: '8px' }}>{fac.role}</p>
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                  <a href={`mailto:${fac.email}`} style={{ color: 'var(--text-light)' }} className="fac-social-icon">
+                  <a href={`mailto:${fac.email}`} style={{ color: '#475569' }} className="fac-social-icon">
                     <Mail size={15} />
                   </a>
                   {fac.linkedin && (
-                    <a href={fac.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-light)' }} className="fac-social-icon">
+                    <a href={fac.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: '#475569' }} className="fac-social-icon">
                       <Linkedin size={15} />
                     </a>
                   )}

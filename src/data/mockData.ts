@@ -26,7 +26,7 @@ export const initialMembers: Member[] = [
     name: 'Aravind Nair',
     year: 'BE',
     position: 'Club President / Hardware Architect',
-    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300',
+    photo: '/photoes/IMG-20241215-WA0077.jpg',
     skills: ['ESP32', 'Raspberry Pi', 'RTOS', 'Firmware C++', 'Altium Designer'],
     socials: {
       github: 'https://github.com',
@@ -68,7 +68,7 @@ export const initialMembers: Member[] = [
     name: 'Shreya Sharma',
     year: 'BE',
     position: 'Technical Head / Edge AI Researcher',
-    photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=300',
+    photo: '/photoes/IMG-20241215-WA0024.jpg',
     skills: ['TensorFlow Lite', 'MicroPython', 'Python', 'Edge AI', 'AWS IoT'],
     socials: {
       github: 'https://github.com',
@@ -103,7 +103,7 @@ export const initialMembers: Member[] = [
     name: 'Kabir Mehta',
     year: 'TE',
     position: 'IoT Security Lead',
-    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300',
+    photo: '/photoes/IMG-20260222-WA0049.jpg',
     skills: ['Cryptographic Hardware', 'ESP-IDF', 'C', 'Penetration Testing'],
     socials: {
       github: 'https://github.com',
@@ -137,7 +137,7 @@ export const initialMembers: Member[] = [
     name: 'Ananya Deshmukh',
     year: 'TE',
     position: 'Cloud Integration Developer',
-    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300',
+    photo: '/photoes/Innovation%202k25%201.jpeg',
     skills: ['Node-RED', 'React', 'Node.js', 'InfluxDB', 'Grafana', 'MQTT'],
     socials: {
       github: 'https://github.com',
@@ -171,7 +171,7 @@ export const initialMembers: Member[] = [
     name: 'Rohan Joshi',
     year: 'SE',
     position: 'Embedded Firmware Developer',
-    photo: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&q=80&w=300',
+    photo: '/photoes/Techathon%203.0%20best%20project%20award.jpg',
     skills: ['Arduino', 'C++', 'Raspberry Pi Pico', 'Sensors Integration'],
     socials: {
       github: 'https://github.com',
@@ -203,7 +203,7 @@ export const initialMembers: Member[] = [
     name: 'Meera Kulkarni',
     year: 'SE',
     position: 'App & Dashboard Developer',
-    photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=300',
+    photo: '/photoes/Innovation%202k25%20Runner%20Up.jpeg',
     skills: ['Flutter', 'Firebase', 'IoT APIs', 'CSS Glassmorphism'],
     socials: {
       github: 'https://github.com',
@@ -238,7 +238,7 @@ export const initialProjects: Project[] = [
     id: 'p1',
     title: 'Autonomous Agricultural Drone Network',
     description: 'A network of multi-spectral sensor nodes and autonomous UAVs communicating via LoRaMESH to track crop health, soil moisture, and pest anomalies. Sensor data triggers drones for targeted precision pesticide application.',
-    image: 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=600',
+    image: '/photoes/Techathon%203.0%20Best%20Project%20Award.jpeg',
     tags: ['ESP32', 'LoRa Mesh', 'Raspberry Pi 4', 'Edge AI', 'UAV Flight Controller'],
     team: ['Aravind Nair', 'Shreya Sharma', 'Rohan Joshi'],
     github: 'https://github.com',
@@ -248,7 +248,7 @@ export const initialProjects: Project[] = [
     id: 'p2',
     title: 'Decentralized Edge Smart Microgrid',
     description: 'An intelligent hardware grid monitoring system that dynamically switches power loads across clean energy sources. Utilizes custom PCB relays and ESP32 chips running a consensus mechanism to load shed without server dependencies.',
-    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=600',
+    image: '/photoes/Quantum%20Arena%20Winner_1.jpeg',
     tags: ['ESP32', 'FreeRTOS', 'Custom PCB Relays', 'Modbus', 'Grafana'],
     team: ['Aravind Nair', 'Ananya Deshmukh'],
     github: 'https://github.com',
@@ -258,7 +258,7 @@ export const initialProjects: Project[] = [
     id: 'p3',
     title: 'TinyML Industrial Vibration Analyzer',
     description: 'A matchbox-sized acceleration sensor node attached to mechanical induction motors. It runs on-device convolutional networks to analyze frequency vibrations and predict mechanical failure weeks before it occurs.',
-    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=600',
+    image: '/photoes/Innovation%202k25%201.jpeg',
     tags: ['Arduino Nano 33 BLE Sense', 'TensorFlow Lite Micro', 'BLE', 'Edge Impulse'],
     team: ['Shreya Sharma', 'Rohan Joshi'],
     github: 'https://github.com',
@@ -268,7 +268,7 @@ export const initialProjects: Project[] = [
     id: 'p4',
     title: 'Secure OTA Cryptographic Firmware Suite',
     description: 'A bootloader framework designed for embedded devices in remote environments. Utilizes hardware encryption modules (AETHS608) to verify digital signatures on firmware binaries before flashing updates via cellular networks.',
-    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=600',
+    image: '/photoes/Innovation%202k25%20Runner%20Up.jpeg',
     tags: ['ESP-IDF', 'ATECC608 Crypto Chip', 'LTE-M Router', 'ECDSA Encryption'],
     team: ['Kabir Mehta'],
     github: 'https://github.com',
@@ -283,7 +283,8 @@ export const initialAchievements: Achievement[] = [
     description: 'Developed an offline IoT disaster communication node that functions during infrastructure collapses. Won first prize of ₹1,00,000.',
     date: 'Dec 2025',
     award: '1st Place',
-    category: 'hackathon'
+    category: 'hackathon',
+    image: '/photoes/Quantum%20Arena%20Winner_1.jpeg'
   },
   {
     id: 'a2',
@@ -291,7 +292,8 @@ export const initialAchievements: Achievement[] = [
     description: 'Published paper "Edge AI Enabled Sensor Cluster for Precision Agriculture" in the proceedings of IEEE IoT Journal 2024.',
     date: 'Oct 2024',
     award: 'Best Paper',
-    category: 'paper'
+    category: 'paper',
+    image: '/photoes/Techathon%203.0%20Best%20Project%20Award.jpeg'
   },
   {
     id: 'a3',
@@ -299,7 +301,8 @@ export const initialAchievements: Achievement[] = [
     description: 'Created a hand-gesture-to-speech translator using an ultra-low-power MCU and inertial sensors.',
     date: 'Apr 2025',
     award: 'Top 5 Globally',
-    category: 'competition'
+    category: 'competition',
+    image: '/photoes/Innovation%202k25%20Runner%20Up.jpeg'
   },
   {
     id: 'a4',
@@ -307,7 +310,8 @@ export const initialAchievements: Achievement[] = [
     description: '15 active club members successfully cleared the professional certification exams funded by the institution.',
     date: 'Nov 2024',
     award: 'Institutional Grant',
-    category: 'certification'
+    category: 'certification',
+    image: '/photoes/Innovation%202k25%201.jpeg'
   }
 ];
 
@@ -317,21 +321,21 @@ export const initialActivities: Activity[] = [
     title: 'Hands-on ESP32 Boot Camp 2026',
     description: 'A 3-day deep dive into ESP32 microcontroller architecture, FreeRTOS tasks, task queues, and WiFi client/server implementations.',
     date: 'Feb 15 - 17, 2026',
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=600'
+    image: '/photoes/IMG-20241215-WA0024.jpg'
   },
   {
     id: 'act2',
     title: 'IoT Security & Penetration Testing Seminar',
     description: 'Special guest lecture from a cyber-defense industry expert showing how to capture MQTT packets, find firmware backdoors, and reverse-engineer custom binary formats.',
     date: 'Mar 28, 2026',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=600'
+    image: '/photoes/IMG-20241215-WA0077.jpg'
   },
   {
     id: 'act3',
     title: 'IoT Ideation Hackfest',
     description: 'Internal hackathon challenging members to build sustainable IoT products utilizing only salvaged components and solar energy.',
     date: 'May 10, 2026',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=600'
+    image: '/photoes/Techathon%203.0%20best%20project%20award.jpg'
   }
 ];
 
@@ -376,18 +380,18 @@ export const initialResources: Resource[] = [
 export const initialFaculty: Faculty[] = [
   {
     id: 'f1',
-    name: 'Dr. Anand Deshpande',
+    name: 'Dr. Dattatray Waghole',
     role: 'Faculty Advisor & Associate Professor (Electronics Dept.)',
-    photo: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=300',
-    email: 'anand.deshpande@college.edu',
+    photo: '/default-avatar.svg',
+    email: 'dattatray.waghole@college.edu',
     linkedin: 'https://linkedin.com'
   },
   {
     id: 'f2',
-    name: 'Prof. Vineeta Murthy',
+    name: 'Prof. Smita Wagh',
     role: 'Mentor & Embedded Systems Lab Director',
-    photo: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300',
-    email: 'vineeta.murthy@college.edu',
+    photo: '/default-avatar.svg',
+    email: 'smita.wagh@college.edu',
     linkedin: 'https://linkedin.com'
   }
 ];
@@ -427,7 +431,7 @@ export const initialEvents: Event[] = [
     date: 'Aug 22 - 24, 2026',
     time: '9:00 AM onwards',
     venue: 'Embedded Lab 102 & Innovation Hall',
-    image: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&q=80&w=600',
+    image: '/photoes/Techathon%203.0%20best%20project%20award.jpg',
     status: 'upcoming',
     registrationLink: '#/register-event'
   },
@@ -438,7 +442,7 @@ export const initialEvents: Event[] = [
     date: 'Jul 10 - 12, 2026',
     time: '3:00 PM - 6:00 PM',
     venue: 'IoT Seminar Room',
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=600',
+    image: '/photoes/IMG-20241215-WA0024.jpg',
     status: 'ongoing',
     registrationLink: '#/register-event'
   },
@@ -449,7 +453,7 @@ export const initialEvents: Event[] = [
     date: 'Jun 14, 2026',
     time: '11:00 AM - 1:30 PM',
     venue: 'Webinar Hall',
-    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=600',
+    image: '/photoes/IMG-20260222-WA0049.jpg',
     status: 'completed'
   }
 ];
@@ -457,38 +461,50 @@ export const initialEvents: Event[] = [
 export const initialGallery: GalleryItem[] = [
   {
     id: 'g1',
-    title: 'ESP32 Bootcamp Session',
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&q=80&w=600',
-    category: 'workshops'
-  },
-  {
-    id: 'g2',
-    title: 'Hardware Testing Lab Hours',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=600',
-    category: 'events'
-  },
-  {
-    id: 'g3',
-    title: 'Smart Grid Hackathon Presentation',
-    image: 'https://images.unsplash.com/photo-1515169067868-5387ec356754?auto=format&fit=crop&q=80&w=600',
+    title: 'Techathon 3.0 - Best Project Award',
+    image: '/photoes/Techathon%203.0%20Best%20Project%20Award.jpeg',
     category: 'competitions'
   },
   {
+    id: 'g2',
+    title: 'Quantum Arena 1st Place Trophy',
+    image: '/photoes/Quantum%20Arena%20Winner_1.jpeg',
+    category: 'competitions'
+  },
+  {
+    id: 'g3',
+    title: 'Innovation 2k25 Project Exhibition',
+    image: '/photoes/Innovation%202k25%201.jpeg',
+    category: 'workshops'
+  },
+  {
     id: 'g4',
-    title: 'IoT Security Lab Demonstration',
-    image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=600',
-    category: 'seminars'
+    title: 'Innovation 2k25 Runner Up Honors',
+    image: '/photoes/Innovation%202k25%20Runner%20Up.jpeg',
+    category: 'competitions'
   },
   {
     id: 'g5',
-    title: 'Guest Lecture by Tesla Engineer',
-    image: 'https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&q=80&w=600',
-    category: 'guest lectures'
+    title: 'Techathon 3.0 Project Stage Presentation',
+    image: '/photoes/Techathon%203.0%20best%20project%20award.jpg',
+    category: 'events'
   },
   {
     id: 'g6',
-    title: 'Makerspace Collaborative Work',
-    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=600',
+    title: 'Embedded Hardware Prototyping & Soldering Lab',
+    image: '/photoes/IMG-20241215-WA0024.jpg',
+    category: 'workshops'
+  },
+  {
+    id: 'g7',
+    title: 'IoT Club Squad Prototyping Session',
+    image: '/photoes/IMG-20241215-WA0077.jpg',
     category: 'events'
+  },
+  {
+    id: 'g8',
+    title: 'IoT Club Annual Chapter Meet & Technical Ideation',
+    image: '/photoes/IMG-20260222-WA0049.jpg',
+    category: 'seminars'
   }
 ];

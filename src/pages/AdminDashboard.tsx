@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { 
   Users, Briefcase, Trophy, Calendar, Image, BookOpen, 
   Settings, LogOut, Plus, Edit, Trash2, ShieldAlert,
-  GraduationCap, Upload, FileText, ArrowLeft
+  GraduationCap, Upload, FileText, ArrowLeft,
+  Mail, Copy, Check, Send, Key, Sparkles, AlertCircle, CheckCircle2, RefreshCw
 } from 'lucide-react';
 import { useIoTStore } from '../data/store';
+import { getTwilioConfig, saveTwilioConfig } from '../services/twilioEmailService';
 import type { Member, Project, Achievement, Activity, Resource, Faculty, Alumni, Event, GalleryItem, HomepageContent } from '../types';
 
 type TabType = 'members' | 'projects' | 'achievements' | 'activities' | 'gallery' | 'resources' | 'faculty' | 'alumni' | 'events' | 'settings';
@@ -28,6 +30,89 @@ export const AdminDashboard: React.FC = () => {
   const handleLogout = () => {
     sessionStorage.removeItem('iot_admin_auth');
     navigate('/');
+  };
+
+  // Quick Student Registration State (Requirement 1 & 2)
+  const [quickStudent, setQuickStudent] = useState({
+    name: '',
+    email: '',
+    year: 'SE' as 'SE' | 'TE' | 'BE',
+    department: 'Electronics & Telecommunication'
+  });
+  const [registeringStudent, setRegisteringStudent] = useState(false);
+  const [quickRegisterError, setQuickRegisterError] = useState('');
+  const [registeredResult, setRegisteredResult] = useState<{
+    name: string;
+    email: string;
+    tempPassword: string;
+    emailResult?: any;
+    memberId?: string;
+  } | null>(null);
+  const [copiedCredentials, setCopiedCredentials] = useState(false);
+
+  // Twilio SendGrid settings modal
+  const [showTwilioModal, setShowTwilioModal] = useState(false);
+  const [twilioSettings, setTwilioSettings] = useState(getTwilioConfig());
+  const [twilioSavedSuccess, setTwilioSavedSuccess] = useState(false);
+
+  const handleQuickStudentRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setQuickRegisterError('');
+    if (!quickStudent.name.trim() || !quickStudent.email.trim()) {
+      setQuickRegisterError('Please enter both student name and email address.');
+      return;
+    }
+
+    setRegisteringStudent(true);
+    try {
+      const res = await store.adminRegisterStudent({
+        name: quickStudent.name.trim(),
+        email: quickStudent.email.trim(),
+        year: quickStudent.year,
+        department: quickStudent.department
+      });
+
+      if (res.status === 'success' && res.tempPassword) {
+        setRegisteredResult({
+          name: quickStudent.name.trim(),
+          email: quickStudent.email.trim(),
+          tempPassword: res.tempPassword,
+          emailResult: res.emailResult,
+          memberId: res.memberId
+        });
+        setQuickStudent({
+          name: '',
+          email: '',
+          year: 'SE',
+          department: 'Electronics & Telecommunication'
+        });
+      } else {
+        setQuickRegisterError(res.message || 'Failed to register student.');
+      }
+    } catch (err: any) {
+      setQuickRegisterError('An error occurred during registration. Please try again.');
+    } finally {
+      setRegisteringStudent(false);
+    }
+  };
+
+  const handleCopyCredentials = () => {
+    if (!registeredResult) return;
+    const loginUrl = `${window.location.origin}${window.location.pathname}#/login`;
+    const text = `IoT Club Student Access Credentials:\n\nName: ${registeredResult.name}\nEmail: ${registeredResult.email}\nTemporary Password: ${registeredResult.tempPassword}\nLogin Portal: ${loginUrl}\n\nPlease log in and complete your technical profile.`;
+    navigator.clipboard.writeText(text);
+    setCopiedCredentials(true);
+    setTimeout(() => setCopiedCredentials(false), 2500);
+  };
+
+  const handleSaveTwilioSettings = (e: React.FormEvent) => {
+    e.preventDefault();
+    saveTwilioConfig(twilioSettings);
+    setTwilioSavedSuccess(true);
+    setTimeout(() => {
+      setTwilioSavedSuccess(false);
+      setShowTwilioModal(false);
+    }, 1500);
   };
 
   // Form states
@@ -222,54 +307,75 @@ export const AdminDashboard: React.FC = () => {
     }}>
       {/* Header Banner */}
       <header style={{
-        background: '#ffffff',
-        borderBottom: '1px solid #cbd5e1',
+        background: 'rgba(8, 14, 28, 0.85)',
+        backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(0, 242, 254, 0.2)',
         padding: '16px 5%',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexWrap: 'wrap',
         gap: '12px',
-        boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.4)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
           <button 
             onClick={() => navigate('/')} 
             className="btn-secondary"
             style={{
-              padding: '6px 12px',
+              padding: '6px 14px',
               fontSize: '0.82rem',
               display: 'inline-flex',
               alignItems: 'center',
               gap: '6px',
-              borderRadius: '4px'
+              borderRadius: '6px'
             }}
           >
             <ArrowLeft size={14} /> Back to Web
           </button>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)' }}>
-            <ShieldAlert size={18} />
-            <h1 style={{ fontSize: '1.15rem', color: 'var(--text-white)', fontFamily: 'var(--font-heading)' }}>IoT Control Console</h1>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--neon-cyan)' }}>
+            <ShieldAlert size={20} />
+            <h1 style={{ fontSize: '1.2rem', color: '#ffffff', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>
+              IoT Club Admin Console
+            </h1>
           </div>
         </div>
 
-        <button 
-          onClick={handleLogout} 
-          className="btn-secondary logout-button"
-          style={{
-            borderColor: '#fca5a5',
-            color: '#dc2626',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            padding: '6px 16px',
-            fontSize: '0.85rem',
-            background: '#ffffff',
-            borderRadius: '4px'
-          }}
-        >
-          <LogOut size={14} /> End Session
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <button
+            onClick={() => setShowTwilioModal(true)}
+            className="btn-secondary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 14px',
+              fontSize: '0.82rem',
+              borderRadius: '6px',
+              borderColor: 'rgba(0, 242, 254, 0.4)',
+              color: 'var(--neon-cyan)'
+            }}
+          >
+            <Mail size={14} /> Twilio SendGrid Config
+          </button>
+
+          <button 
+            onClick={handleLogout} 
+            className="btn-secondary logout-button"
+            style={{
+              borderColor: 'rgba(244, 63, 94, 0.4)',
+              color: '#fb7185',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 16px',
+              fontSize: '0.85rem',
+              borderRadius: '6px'
+            }}
+          >
+            <LogOut size={14} /> End Session
+          </button>
+        </div>
       </header>
 
       {/* Main Grid */}
@@ -339,36 +445,236 @@ export const AdminDashboard: React.FC = () => {
                 </button>
               </div>
 
+              {/* Quick Student Registration Panel (Requirement 1 & 2) */}
+              {activeTab === 'members' && (
+                <div className="glass-panel" style={{
+                  marginBottom: '26px',
+                  padding: '24px',
+                  borderRadius: '14px',
+                  border: '1px solid rgba(0, 242, 254, 0.3)',
+                  background: 'rgba(8, 14, 28, 0.75)',
+                  boxShadow: '0 8px 30px rgba(0, 242, 254, 0.08)'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Sparkles size={18} style={{ color: 'var(--neon-cyan)' }} />
+                        <h3 style={{ fontSize: '1.15rem', color: '#ffffff', fontWeight: 700, margin: 0 }}>
+                          Register New Student & Dispatch Twilio Invite
+                        </h3>
+                      </div>
+                      <p style={{ fontSize: '0.82rem', color: 'var(--text-light)', marginTop: '4px', margin: 0 }}>
+                        Enter a student's Name and Email. The system generates a secure random password and automatically sends login credentials via Twilio SendGrid.
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowTwilioModal(true)}
+                      className="btn-secondary"
+                      style={{ padding: '6px 14px', fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '6px', borderRadius: '6px' }}
+                    >
+                      <Mail size={13} /> Twilio Settings
+                    </button>
+                  </div>
+
+                  {quickRegisterError && (
+                    <div style={{
+                      padding: '10px 14px',
+                      background: 'rgba(244, 63, 94, 0.12)',
+                      border: '1px solid rgba(244, 63, 94, 0.35)',
+                      borderRadius: '8px',
+                      color: '#fb7185',
+                      fontSize: '0.85rem',
+                      marginBottom: '14px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
+                    }}>
+                      <AlertCircle size={16} />
+                      {quickRegisterError}
+                    </div>
+                  )}
+
+                  <form onSubmit={handleQuickStudentRegister} style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr)) auto',
+                    gap: '12px',
+                    alignItems: 'end'
+                  }}>
+                    <div>
+                      <label className="cyber-label" style={{ fontSize: '0.76rem', marginBottom: '5px' }}>Student Full Name *</label>
+                      <input
+                        type="text"
+                        className="cyber-input"
+                        placeholder="e.g. Aryan Deshmukh"
+                        value={quickStudent.name}
+                        onChange={e => setQuickStudent(prev => ({ ...prev, name: e.target.value }))}
+                        required
+                        style={{ padding: '9px 12px', fontSize: '0.88rem' }}
+                      />
+                    </div>
+                    <div>
+                      <label className="cyber-label" style={{ fontSize: '0.76rem', marginBottom: '5px' }}>Student Email Address *</label>
+                      <input
+                        type="email"
+                        className="cyber-input"
+                        placeholder="aryan@college.edu"
+                        value={quickStudent.email}
+                        onChange={e => setQuickStudent(prev => ({ ...prev, email: e.target.value }))}
+                        required
+                        style={{ padding: '9px 12px', fontSize: '0.88rem' }}
+                      />
+                    </div>
+                    <div>
+                      <label className="cyber-label" style={{ fontSize: '0.76rem', marginBottom: '5px' }}>Academic Cohort *</label>
+                      <select
+                        className="cyber-input"
+                        value={quickStudent.year}
+                        onChange={e => setQuickStudent(prev => ({ ...prev, year: e.target.value as 'SE' | 'TE' | 'BE' }))}
+                        style={{ padding: '9px 12px', fontSize: '0.88rem' }}
+                      >
+                        <option value="SE">SE (Second Year)</option>
+                        <option value="TE">TE (Third Year)</option>
+                        <option value="BE">BE (Final Year)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="cyber-label" style={{ fontSize: '0.76rem', marginBottom: '5px' }}>Department / Branch</label>
+                      <input
+                        type="text"
+                        className="cyber-input"
+                        placeholder="e.g. E&TC Engineering"
+                        value={quickStudent.department}
+                        onChange={e => setQuickStudent(prev => ({ ...prev, department: e.target.value }))}
+                        style={{ padding: '9px 12px', fontSize: '0.88rem' }}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={registeringStudent}
+                      className="btn-primary"
+                      style={{
+                        padding: '10px 20px',
+                        fontSize: '0.88rem',
+                        fontWeight: 700,
+                        whiteSpace: 'nowrap',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        height: '42px',
+                        borderRadius: '6px'
+                      }}
+                    >
+                      {registeringStudent ? (
+                        <>
+                          <RefreshCw size={14} className="animate-spin" /> Dispatching...
+                        </>
+                      ) : (
+                        <>
+                          <Send size={15} /> Register Student
+                        </>
+                      )}
+                    </button>
+                  </form>
+                </div>
+              )}
+
               {/* Data Table */}
-              <div className="glass-panel" style={{ background: '#ffffff', overflow: 'hidden', border: '1px solid #cbd5e1' }}>
+              <div className="glass-panel" style={{
+                background: 'rgba(8, 14, 28, 0.75)',
+                overflow: 'hidden',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '12px'
+              }}>
                 {activeTab === 'members' && (
                   <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
                     <thead>
-                      <tr style={{ borderBottom: '2px solid #cbd5e1', backgroundColor: '#f8fafc' }}>
-                        <th style={{ padding: '12px 18px', color: 'var(--text-white)', fontSize: '0.88rem' }}>Photo</th>
-                        <th style={{ padding: '12px 18px', color: 'var(--text-white)', fontSize: '0.88rem' }}>Name</th>
-                        <th style={{ padding: '12px 18px', color: 'var(--text-white)', fontSize: '0.88rem' }}>Year</th>
-                        <th style={{ padding: '12px 18px', color: 'var(--text-white)', fontSize: '0.88rem' }}>Position</th>
-                        <th style={{ padding: '12px 18px', color: 'var(--text-white)', fontSize: '0.88rem', textAlign: 'right' }}>Actions</th>
+                      <tr style={{ borderBottom: '1px solid rgba(0, 242, 254, 0.2)', backgroundColor: 'rgba(0, 242, 254, 0.04)' }}>
+                        <th style={{ padding: '14px 18px', color: 'var(--neon-cyan)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>Photo</th>
+                        <th style={{ padding: '14px 18px', color: 'var(--neon-cyan)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>Student Details</th>
+                        <th style={{ padding: '14px 18px', color: 'var(--neon-cyan)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>Cohort Year</th>
+                        <th style={{ padding: '14px 18px', color: 'var(--neon-cyan)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>Role / Branch</th>
+                        <th style={{ padding: '14px 18px', color: 'var(--neon-cyan)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)' }}>Status</th>
+                        <th style={{ padding: '14px 18px', color: 'var(--neon-cyan)', fontSize: '0.82rem', fontFamily: 'var(--font-mono)', textAlign: 'right' }}>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {store.members.map(item => (
-                        <tr key={item.id} style={{ borderBottom: '1px solid #e2e8f0' }} className="alumni-row">
-                          <td style={{ padding: '8px 18px' }}>
-                            <img src={item.photo} alt={item.name} style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover' }} />
-                          </td>
-                          <td style={{ padding: '8px 18px', color: 'var(--text-white)', fontWeight: 500, fontSize: '0.88rem' }}>{item.name}</td>
-                          <td style={{ padding: '8px 18px', color: 'var(--text-light)', fontSize: '0.88rem' }}>{item.year}</td>
-                          <td style={{ padding: '8px 18px', color: 'var(--secondary)', fontSize: '0.88rem' }}>{item.position}</td>
-                          <td style={{ padding: '8px 18px', textAlign: 'right' }}>
-                            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
-                              <button onClick={() => openEditModal(item.id)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer' }}><Edit size={14} /></button>
-                              <button onClick={() => handleDelete(item.id)} style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer' }}><Trash2 size={14} /></button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                      {store.members.map(item => {
+                        const isPending = item.isFirstLogin === true || item.profileCompleted === false;
+                        const yearColor = item.year === 'SE' ? 'var(--neon-cyan)' : item.year === 'TE' ? 'var(--neon-purple)' : 'var(--neon-emerald)';
+
+                        return (
+                          <tr key={item.id} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }} className="alumni-row">
+                            <td style={{ padding: '10px 18px' }}>
+                              <img src={item.photo} alt={item.name} style={{ width: '36px', height: '36px', borderRadius: '50%', objectFit: 'cover', border: `1px solid ${yearColor}` }} />
+                            </td>
+                            <td style={{ padding: '10px 18px' }}>
+                              <div style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.9rem' }}>{item.name}</div>
+                              {item.email && (
+                                <div style={{ color: 'var(--text-light)', fontSize: '0.78rem', fontFamily: 'var(--font-mono)' }}>{item.email}</div>
+                              )}
+                            </td>
+                            <td style={{ padding: '10px 18px' }}>
+                              <span style={{
+                                padding: '3px 10px',
+                                borderRadius: '12px',
+                                background: `rgba(${item.year === 'SE' ? '0, 242, 254' : item.year === 'TE' ? '168, 85, 247' : '0, 245, 160'}, 0.12)`,
+                                border: `1px solid ${yearColor}`,
+                                color: yearColor,
+                                fontSize: '0.75rem',
+                                fontWeight: 700,
+                                fontFamily: 'var(--font-mono)'
+                              }}>
+                                {item.year} Section
+                              </span>
+                            </td>
+                            <td style={{ padding: '10px 18px' }}>
+                              <div style={{ color: 'var(--text-light)', fontSize: '0.85rem' }}>{item.position}</div>
+                              {item.department && (
+                                <div style={{ color: 'rgba(255, 255, 255, 0.4)', fontSize: '0.74rem' }}>{item.department}</div>
+                              )}
+                            </td>
+                            <td style={{ padding: '10px 18px' }}>
+                              {isPending ? (
+                                <span style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '5px',
+                                  padding: '3px 8px',
+                                  borderRadius: '6px',
+                                  background: 'rgba(245, 158, 11, 0.12)',
+                                  border: '1px solid rgba(245, 158, 11, 0.35)',
+                                  color: '#fbbf24',
+                                  fontSize: '0.75rem'
+                                }}>
+                                  <Key size={11} /> Invited (Pending First Login)
+                                </span>
+                              ) : (
+                                <span style={{
+                                  display: 'inline-flex',
+                                  alignItems: 'center',
+                                  gap: '5px',
+                                  padding: '3px 8px',
+                                  borderRadius: '6px',
+                                  background: 'rgba(0, 245, 160, 0.1)',
+                                  border: '1px solid rgba(0, 245, 160, 0.3)',
+                                  color: 'var(--neon-emerald)',
+                                  fontSize: '0.75rem'
+                                }}>
+                                  <CheckCircle2 size={11} /> Profile Active
+                                </span>
+                              )}
+                            </td>
+                            <td style={{ padding: '10px 18px', textAlign: 'right' }}>
+                              <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
+                                <button onClick={() => openEditModal(item.id)} style={{ background: 'none', border: 'none', color: 'var(--neon-cyan)', cursor: 'pointer', padding: '4px' }} title="Edit"><Edit size={14} /></button>
+                                <button onClick={() => handleDelete(item.id)} style={{ background: 'none', border: 'none', color: '#fb7185', cursor: 'pointer', padding: '4px' }} title="Delete"><Trash2 size={14} /></button>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
                     </tbody>
                   </table>
                 )}
@@ -741,6 +1047,270 @@ export const AdminDashboard: React.FC = () => {
                 </button>
               </div>
 
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Credentials Confirmation Modal (Requirement 1 & 2) */}
+      {registeredResult && (
+        <div style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px'
+        }}>
+          <div className="glass-panel card-top-blue" style={{
+            maxWidth: '520px',
+            width: '100%',
+            padding: '32px',
+            borderRadius: '16px',
+            boxShadow: '0 0 50px rgba(0, 242, 254, 0.25)'
+          }}>
+            <div style={{ textAlign: 'center', marginBottom: '22px' }}>
+              <div style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '50%',
+                background: 'rgba(0, 245, 160, 0.12)',
+                border: '1px solid rgba(0, 245, 160, 0.4)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--neon-emerald)',
+                margin: '0 auto 12px auto'
+              }}>
+                <CheckCircle2 size={30} />
+              </div>
+              <h2 style={{ fontSize: '1.45rem', color: '#ffffff', fontWeight: 700, marginBottom: '6px' }}>
+                Student Successfully Registered!
+              </h2>
+              <p style={{ color: 'var(--text-light)', fontSize: '0.85rem' }}>
+                Credentials generated and account provisioned in the directory.
+              </p>
+            </div>
+
+            {/* Credentials Card */}
+            <div style={{
+              background: 'rgba(0, 0, 0, 0.4)',
+              border: '1px solid rgba(0, 242, 254, 0.3)',
+              borderRadius: '12px',
+              padding: '18px',
+              marginBottom: '20px'
+            }}>
+              <div style={{ marginBottom: '12px' }}>
+                <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--text-light)', letterSpacing: '0.5px' }}>
+                  Student Name & Email
+                </span>
+                <div style={{ color: '#ffffff', fontWeight: 600, fontSize: '0.95rem', marginTop: '2px' }}>
+                  {registeredResult.name}
+                </div>
+                <div style={{ color: 'var(--neon-cyan)', fontSize: '0.85rem', fontFamily: 'var(--font-mono)' }}>
+                  {registeredResult.email}
+                </div>
+              </div>
+
+              <div>
+                <span style={{ fontSize: '0.72rem', textTransform: 'uppercase', color: 'var(--text-light)', letterSpacing: '0.5px' }}>
+                  Auto-Generated Temporary Password
+                </span>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  background: 'rgba(0, 245, 160, 0.08)',
+                  border: '1px solid rgba(0, 245, 160, 0.35)',
+                  padding: '8px 12px',
+                  borderRadius: '8px',
+                  marginTop: '4px'
+                }}>
+                  <code style={{ fontSize: '1.15rem', color: 'var(--neon-emerald)', fontWeight: 800, letterSpacing: '1px' }}>
+                    {registeredResult.tempPassword}
+                  </code>
+                  <button
+                    onClick={handleCopyCredentials}
+                    className="btn-secondary"
+                    style={{
+                      padding: '4px 10px',
+                      fontSize: '0.76rem',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      borderRadius: '4px'
+                    }}
+                  >
+                    {copiedCredentials ? (
+                      <>
+                        <Check size={12} style={{ color: 'var(--neon-emerald)' }} /> Copied!
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={12} /> Copy
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Email Dispatch Status */}
+            <div style={{
+              padding: '12px 14px',
+              borderRadius: '8px',
+              background: registeredResult.emailResult?.method === 'sendgrid' ? 'rgba(0, 245, 160, 0.08)' : 'rgba(245, 158, 11, 0.08)',
+              border: `1px solid ${registeredResult.emailResult?.method === 'sendgrid' ? 'rgba(0, 245, 160, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
+              marginBottom: '22px',
+              fontSize: '0.82rem',
+              color: registeredResult.emailResult?.method === 'sendgrid' ? '#a7f3d0' : '#fde68a',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '10px'
+            }}>
+              <Mail size={18} style={{ flexShrink: 0 }} />
+              <div>
+                <div style={{ fontWeight: 600 }}>
+                  {registeredResult.emailResult?.method === 'sendgrid' ? 'Twilio SendGrid Email Dispatched' : 'Twilio Email Ready (Simulated)'}
+                </div>
+                <div style={{ fontSize: '0.76rem', opacity: 0.9, marginTop: '2px' }}>
+                  {registeredResult.emailResult?.message}
+                </div>
+              </div>
+            </div>
+
+            {/* Dismiss Button */}
+            <button
+              onClick={() => setRegisteredResult(null)}
+              className="btn-primary"
+              style={{
+                width: '100%',
+                padding: '12px',
+                fontSize: '0.95rem',
+                fontWeight: 700,
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}
+            >
+              Done & Return to Console
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Twilio SendGrid Configuration Modal */}
+      {showTwilioModal && (
+        <div style={{
+          position: 'fixed',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px'
+        }}>
+          <div className="glass-panel card-top-blue" style={{
+            maxWidth: '500px',
+            width: '100%',
+            padding: '30px',
+            borderRadius: '16px',
+            boxShadow: '0 0 50px rgba(0, 242, 254, 0.25)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Mail size={20} style={{ color: 'var(--neon-cyan)' }} />
+                <h3 style={{ fontSize: '1.2rem', color: '#ffffff', fontWeight: 700, margin: 0 }}>
+                  Twilio SendGrid Settings
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowTwilioModal(false)}
+                style={{ background: 'none', border: 'none', color: 'var(--text-light)', cursor: 'pointer', fontSize: '1.2rem' }}
+              >
+                &times;
+              </button>
+            </div>
+
+            <p style={{ fontSize: '0.84rem', color: 'var(--text-light)', marginBottom: '18px', lineHeight: 1.5 }}>
+              Enter your Twilio SendGrid credentials to enable automatic email dispatch of student login credentials.
+            </p>
+
+            {twilioSavedSuccess && (
+              <div style={{
+                padding: '10px 14px',
+                background: 'rgba(0, 245, 160, 0.12)',
+                border: '1px solid rgba(0, 245, 160, 0.4)',
+                borderRadius: '8px',
+                color: '#a7f3d0',
+                fontSize: '0.85rem',
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <CheckCircle2 size={16} /> Twilio settings successfully saved!
+              </div>
+            )}
+
+            <form onSubmit={handleSaveTwilioSettings}>
+              <div style={{ marginBottom: '14px' }}>
+                <label className="cyber-label">SendGrid API Key (starts with SG.)</label>
+                <input
+                  type="password"
+                  className="cyber-input"
+                  placeholder="SG.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                  value={twilioSettings.apiKey}
+                  onChange={e => setTwilioSettings(prev => ({ ...prev, apiKey: e.target.value }))}
+                />
+              </div>
+
+              <div style={{ marginBottom: '14px' }}>
+                <label className="cyber-label">Verified Sender Email</label>
+                <input
+                  type="email"
+                  className="cyber-input"
+                  placeholder="iotclub@yourcollege.edu"
+                  value={twilioSettings.fromEmail}
+                  onChange={e => setTwilioSettings(prev => ({ ...prev, fromEmail: e.target.value }))}
+                />
+              </div>
+
+              <div style={{ marginBottom: '22px' }}>
+                <label className="cyber-label">Sender Name</label>
+                <input
+                  type="text"
+                  className="cyber-input"
+                  placeholder="IoT Club Administration"
+                  value={twilioSettings.fromName}
+                  onChange={e => setTwilioSettings(prev => ({ ...prev, fromName: e.target.value }))}
+                />
+              </div>
+
+              <div style={{ display: 'flex', gap: '10px' }}>
+                <button
+                  type="button"
+                  onClick={() => setShowTwilioModal(false)}
+                  className="btn-secondary"
+                  style={{ flexGrow: 1, padding: '10px', borderRadius: '6px' }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="btn-primary"
+                  style={{ flexGrow: 1, padding: '10px', borderRadius: '6px', fontWeight: 700 }}
+                >
+                  Save Settings
+                </button>
+              </div>
             </form>
           </div>
         </div>

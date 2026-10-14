@@ -121,278 +121,70 @@ export const Home: React.FC = () => {
   return (
     <div style={{ position: 'relative', backgroundColor: 'var(--bg-dark)' }}>
       
-      {/* 1. HERO SECTION */}
+      {/* 1. HERO SECTION (Refined Centered Minimalist & Premium) */}
       <section 
         id="hero" 
         onMouseMove={handleMouseMove}
-        style={{
-          height: '78vh',
-          minHeight: '640px',
-          maxHeight: '780px',
-          display: 'flex',
-          alignItems: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-          paddingTop: '80px',
-          paddingBottom: '20px',
-          backgroundColor: '#ffffff'
-        }}
+        className="hero-section-refined"
       >
-        {/* PCB schematic watermark background */}
-        <CanvasBackground />
+        {/* Brushed metal & faint purposeful circuit background */}
+        <div className="hero-panel-texture" />
+        <CanvasBackground mousePos={mousePos} />
 
-        <div className="hero-grid-layout">
+        {/* Centered Hero Composition */}
+        <div className="hero-centered-container">
           
-          {/* LEFT COLUMN: Text Content */}
-          <div className="hero-left-col">
-            {/* Sub-headline */}
-            <div style={{
-              fontSize: '0.8rem',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '1.8px',
-              color: 'var(--primary)',
-              marginBottom: '10px'
-            }}>
-              IoT Innovation Club
-            </div>
-
-            {/* Bold Headline */}
-            <h1 style={{
-              fontSize: '2.8rem',
-              lineHeight: 1.15,
-              fontWeight: 800,
-              color: 'var(--text-white)',
-              marginBottom: '10px',
-              letterSpacing: '-0.8px'
-            }}>
-              Build. Innovate.<br />Engineer the Future.
-            </h1>
-
-            {/* Typing text Tagline */}
-            <div style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: '1.4rem',
-              fontWeight: 600,
-              marginBottom: '12px',
-              color: 'var(--text-gray)'
-            }}>
-              We Learn to <TypingText words={homepageContent.typingText} />
-            </div>
-
-            {/* Spacing & Readability Description */}
-            <p style={{
-              color: 'var(--text-light)',
-              fontSize: '0.94rem',
-              lineHeight: 1.55,
-              maxWidth: '520px',
-              marginBottom: '25px',
-              fontWeight: 400
-            }}>
-              {homepageContent.tagline}
-            </p>
-
-            {/* CTAs */}
-            <div style={{
-              display: 'flex',
-              gap: '10px',
-              flexWrap: 'wrap',
-              marginBottom: '30px'
-            }}>
-              <button onClick={() => navigate('/signup')} className="btn-primary" style={{ padding: '10px 22px', borderRadius: '4px' }}>
-                Join Club <ArrowRight size={14} />
-              </button>
-              <button onClick={() => scrollIntoView('members')} className="btn-secondary" style={{ padding: '10px 22px', borderRadius: '4px' }}>
-                Explore Roster <Users size={14} />
-              </button>
-            </div>
-
-            {/* Technology Badges Row */}
-            <div style={{ borderTop: '1px solid #e5e7eb', paddingTop: '15px' }}>
-              <div style={{
-                fontSize: '0.72rem',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                color: 'var(--text-light)',
-                fontWeight: 700,
-                marginBottom: '8px'
-              }}>
-                Trusted Technologies
-              </div>
-              <div className="hero-tech-badge-container">
-                {['Arduino', 'ESP32', 'Raspberry Pi', 'STM32', 'MQTT', 'Edge AI', 'Robotics', 'Embedded Systems'].map(badge => (
-                  <span key={badge} className="hero-tech-badge">{badge}</span>
-                ))}
-              </div>
-            </div>
+          {/* Kicker Pill Badge */}
+          <div className="hero-kicker-pill">
+            <span className="hero-live-indicator" />
+            <span>IoT Innovation Club</span>
+            <span style={{ color: '#94a3b8' }}>•</span>
+            <span style={{ color: 'var(--primary)' }}>Hardware & Edge AI Lab</span>
           </div>
 
-          {/* RIGHT COLUMN: Interactive Vector SVG Illustration */}
-          <div className="hero-right-col">
-            <div className="animate-float" style={{
-              width: '100%',
-              maxWidth: '440px',
-              aspectRatio: '1/1',
-              position: 'relative'
-            }}>
-              <svg 
-                viewBox="0 0 500 500" 
-                width="100%" 
-                height="100%" 
-                style={{ overflow: 'visible' }}
-              >
-                {/* LAYER 1: Animated Connected Circuit Lines (Parallax factor: 0.4) */}
-                <g style={{
-                  transform: `translate(${mousePos.x * 0.4}px, ${mousePos.y * 0.4}px)`,
-                  transition: 'transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1)'
-                }}>
-                  {/* Central Hub to Cloud */}
-                  <path d="M 250,250 L 250,75" fill="none" stroke="rgba(26,115,232,0.25)" strokeWidth="2" />
-                  <path d="M 250,250 L 250,75" fill="none" stroke="var(--primary)" strokeWidth="2" className="circuit-path-animated" />
+          {/* Monumental Headline */}
+          <h1 className="hero-main-heading">
+            Build. Innovate.<br />
+            Engineer the Future.
+          </h1>
 
-                  {/* Central Hub to AI Chip */}
-                  <path d="M 250,250 L 370,130" fill="none" stroke="rgba(26,115,232,0.25)" strokeWidth="2" />
-                  <path d="M 250,250 L 370,130" fill="none" stroke="var(--primary)" strokeWidth="2" className="circuit-path-animated" />
+          {/* Integrated Subtitle & Lead Paragraph */}
+          <div className="hero-lead-container">
+            <div className="hero-typing-line">
+              We Learn to <TypingText words={homepageContent.typingText} />
+            </div>
+            <p className="hero-description-text">
+              {homepageContent.tagline} A premier student engineering hub where developers and hardware hackers collaborate to build next-generation embedded firmware, telemetry networks, and edge intelligence systems.
+            </p>
+          </div>
 
-                  {/* Central Hub to WiFi */}
-                  <path d="M 250,250 L 415,250" fill="none" stroke="rgba(26,115,232,0.25)" strokeWidth="2" />
-                  <path d="M 250,250 L 415,250" fill="none" stroke="var(--primary)" strokeWidth="2" className="circuit-path-animated" />
+          {/* Centered Polished CTAs */}
+          <div className="hero-cta-group">
+            <button 
+              onClick={() => navigate('/signup')} 
+              className="hero-btn-primary"
+            >
+              <span>Join Club</span>
+              <ArrowRight size={16} />
+            </button>
+            <button 
+              onClick={() => scrollIntoView('members')} 
+              className="hero-btn-secondary"
+            >
+              <span>Explore Roster</span>
+              <Users size={16} />
+            </button>
+          </div>
 
-                  {/* Central Hub to Sensors */}
-                  <path d="M 250,250 L 370,370" fill="none" stroke="rgba(26,115,232,0.25)" strokeWidth="2" />
-                  <path d="M 250,250 L 370,370" fill="none" stroke="var(--primary)" strokeWidth="2" className="circuit-path-animated" />
-
-                  {/* Central Hub to Robot Arm */}
-                  <path d="M 250,250 L 250,425" fill="none" stroke="rgba(26,115,232,0.25)" strokeWidth="2" />
-                  <path d="M 250,250 L 250,425" fill="none" stroke="var(--primary)" strokeWidth="2" className="circuit-path-animated" />
-
-                  {/* Central Hub to Drone */}
-                  <path d="M 250,250 L 130,370" fill="none" stroke="rgba(26,115,232,0.25)" strokeWidth="2" />
-                  <path d="M 250,250 L 130,370" fill="none" stroke="var(--primary)" strokeWidth="2" className="circuit-path-animated" />
-
-                  {/* Central Hub to Raspberry Pi */}
-                  <path d="M 250,250 L 85,250" fill="none" stroke="rgba(26,115,232,0.25)" strokeWidth="2" />
-                  <path d="M 250,250 L 85,250" fill="none" stroke="var(--primary)" strokeWidth="2" className="circuit-path-animated" />
-
-                  {/* Central Hub to ESP32 */}
-                  <path d="M 250,250 L 130,130" fill="none" stroke="rgba(26,115,232,0.25)" strokeWidth="2" />
-                  <path d="M 250,250 L 130,130" fill="none" stroke="var(--primary)" strokeWidth="2" className="circuit-path-animated" />
-                </g>
-
-                {/* LAYER 2: Central PCB Gateway Hub (Parallax factor: 0.7) */}
-                <g style={{
-                  transform: `translate(${mousePos.x * 0.7}px, ${mousePos.y * 0.7}px)`,
-                  transition: 'transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1)'
-                }}>
-                  {/* Central Hub Shadow */}
-                  <circle cx="250" cy="250" r="54" fill="rgba(60,64,67,0.06)" />
-                  
-                  {/* Outer PCB ring */}
-                  <circle cx="250" cy="250" r="48" fill="#ffffff" stroke="var(--primary)" strokeWidth="3" />
-                  <circle cx="250" cy="250" r="44" fill="none" stroke="var(--primary-glow)" strokeWidth="2" strokeDasharray="6 3" />
-                  
-                  {/* Inner MCU Chip representation */}
-                  <rect x="230" y="230" width="40" height="40" rx="4" fill="#202124" />
-                  
-                  {/* Gold pin lines */}
-                  <path d="M 225,236 h 5 M 225,244 h 5 M 225,252 h 5 M 225,260 h 5
-                           M 270,236 h 5 M 270,244 h 5 M 270,252 h 5 M 270,260 h 5
-                           M 236,225 v 5 M 244,225 v 5 M 252,225 v 5 M 260,225 v 5
-                           M 236,270 v 5 M 244,270 v 5 M 252,270 v 5 M 260,270 v 5"
-                        fill="none" stroke="#fbbc05" strokeWidth="1.5" />
-                  
-                  <text x="250" y="252" fontSize="7" fontFamily="monospace" fill="#ffffff" fontWeight="bold" textAnchor="middle">IoT</text>
-                </g>
-
-                {/* LAYER 3: Peripheral Orbital Nodes (Parallax factor: 1.0) */}
-                <g style={{
-                  transform: `translate(${mousePos.x * 1.0}px, ${mousePos.y * 1.0}px)`,
-                  transition: 'transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1)'
-                }}>
-                  {/* 1. Cloud Connectivity (Top Center: 250, 75) */}
-                  <g transform="translate(250, 75)">
-                    <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))' }} />
-                    {/* Cloud Icon */}
-                    <path d="M -8,3 a 5,5 0 0 1 0,-10 a 7,7 0 0 1 13,-2 a 5,5 0 0 1 0,10 z" fill="none" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-                  </g>
-
-                  {/* 2. AI Chip (Top Right: 370, 130) */}
-                  <g transform="translate(370, 130)">
-                    <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))' }} />
-                    {/* Brain pathways icon */}
-                    <rect x="-8" y="-8" width="16" height="16" rx="2" fill="none" stroke="var(--gdg-green)" strokeWidth="1.5" />
-                    <circle cx="0" cy="0" r="3" fill="var(--gdg-green)" />
-                    <line x1="-8" y1="0" x2="-12" y2="0" stroke="var(--gdg-green)" strokeWidth="1.2" />
-                    <line x1="8" y1="0" x2="12" y2="0" stroke="var(--gdg-green)" strokeWidth="1.2" />
-                    <line x1="0" y1="-8" x2="0" y2="-12" stroke="var(--gdg-green)" strokeWidth="1.2" />
-                    <line x1="0" y1="8" x2="0" y2="12" stroke="var(--gdg-green)" strokeWidth="1.2" />
-                  </g>
-
-                  {/* 3. WiFi Signals (Middle Right: 415, 250) */}
-                  <g transform="translate(415, 250)">
-                    <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))' }} />
-                    {/* WiFi Icon */}
-                    <circle cx="0" cy="6" r="1.5" fill="var(--primary)" />
-                    <path d="M -5,1 a 7,7 0 0 1 10,0" fill="none" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-                    <path d="M -9,-3 a 12,12 0 0 1 18,0" fill="none" stroke="var(--primary)" strokeWidth="1.5" strokeLinecap="round" />
-                  </g>
-
-                  {/* 4. Sensors (Bottom Right: 370, 370) */}
-                  <g transform="translate(370, 370)">
-                    <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))' }} />
-                    {/* Analog Dial / Gauge Icon */}
-                    <path d="M -8,5 a 10,10 0 1 1 16,0" fill="none" stroke="var(--gdg-red)" strokeWidth="1.5" strokeLinecap="round" />
-                    <line x1="0" y1="4" x2="4" y2="-3" stroke="var(--gdg-red)" strokeWidth="1.5" strokeLinecap="round" />
-                  </g>
-
-                  {/* 5. Robot Arm (Bottom Center: 250, 425) */}
-                  <g transform="translate(250, 425)">
-                    <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))' }} />
-                    {/* Mechanical arm schematic */}
-                    <rect x="-10" y="6" width="20" height="4" fill="none" stroke="var(--gdg-yellow)" strokeWidth="1.5" />
-                    <line x1="-5" y1="6" x2="0" y2="-4" stroke="var(--gdg-yellow)" strokeWidth="1.8" strokeLinecap="round" />
-                    <line x1="0" y1="-4" x2="8" y2="-8" stroke="var(--gdg-yellow)" strokeWidth="1.8" strokeLinecap="round" />
-                    <circle cx="0" cy="-4" r="2" fill="var(--gdg-yellow)" />
-                  </g>
-
-                  {/* 6. Drone (Bottom Left: 130, 370) */}
-                  <g transform="translate(130, 370)">
-                    <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))' }} />
-                    {/* Quadcopter cross outline */}
-                    <line x1="-10" y1="-10" x2="10" y2="10" stroke="var(--primary)" strokeWidth="1.5" />
-                    <line x1="-10" y1="10" x2="10" y2="-10" stroke="var(--primary)" strokeWidth="1.5" />
-                    <circle cx="0" cy="0" r="4" fill="#ffffff" stroke="var(--primary)" strokeWidth="1.5" />
-                    {/* Little rotors */}
-                    <line x1="-12" y1="-10" x2="-8" y2="-10" stroke="var(--primary)" strokeWidth="1" />
-                    <line x1="8" y1="-10" x2="12" y2="-10" stroke="var(--primary)" strokeWidth="1" />
-                    <line x1="-12" y1="10" x2="-8" y2="10" stroke="var(--primary)" strokeWidth="1" />
-                    <line x1="8" y1="10" x2="12" y2="10" stroke="var(--primary)" strokeWidth="1" />
-                  </g>
-
-                  {/* 7. Raspberry Pi (Middle Left: 85, 250) */}
-                  <g transform="translate(85, 250)">
-                    <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))' }} />
-                    {/* Berry emblem vector representation */}
-                    <circle cx="-3" cy="2" r="5" fill="none" stroke="var(--gdg-red)" strokeWidth="1.5" />
-                    <circle cx="3" cy="2" r="5" fill="none" stroke="var(--gdg-red)" strokeWidth="1.5" />
-                    <circle cx="0" cy="-3" r="4.5" fill="none" stroke="var(--gdg-red)" strokeWidth="1.5" />
-                    <path d="M -3,-7 Q 0,-3 3,-7" fill="none" stroke="var(--gdg-green)" strokeWidth="1.5" />
-                  </g>
-
-                  {/* 8. ESP32 (Top Left: 130, 130) */}
-                  <g transform="translate(130, 130)">
-                    <circle cx="0" cy="0" r="24" fill="#ffffff" stroke="#cbd5e1" strokeWidth="1.5" style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.06))' }} />
-                    {/* Microchip pin details */}
-                    <rect x="-8" y="-9" width="16" height="18" rx="1.5" fill="none" stroke="var(--gdg-yellow)" strokeWidth="1.5" />
-                    <line x1="-11" y1="-5" x2="-8" y2="-5" stroke="var(--gdg-yellow)" strokeWidth="1.2" />
-                    <line x1="-11" y1="0" x2="-8" y2="0" stroke="var(--gdg-yellow)" strokeWidth="1.2" />
-                    <line x1="-11" y1="5" x2="-8" y2="5" stroke="var(--gdg-yellow)" strokeWidth="1.2" />
-                    <line x1="8" y1="-5" x2="11" y2="-5" stroke="var(--gdg-yellow)" strokeWidth="1.2" />
-                    <line x1="8" y1="0" x2="11" y2="0" stroke="var(--gdg-yellow)" strokeWidth="1.2" />
-                    <line x1="8" y1="5" x2="11" y2="5" stroke="var(--gdg-yellow)" strokeWidth="1.2" />
-                  </g>
-                </g>
-              </svg>
+          {/* Symmetrical Centered Trusted Technologies */}
+          <div className="hero-tech-ecosystem">
+            <div className="hero-tech-title">
+              Trusted Technologies & Platforms
+            </div>
+            <div className="hero-tech-pill-row">
+              {['Arduino', 'ESP32', 'Raspberry Pi', 'STM32', 'MQTT', 'Edge AI', 'Robotics', 'Embedded Systems', 'TinyML', 'FreeRTOS'].map(badge => (
+                <span key={badge} className="hero-tech-pill">{badge}</span>
+              ))}
             </div>
           </div>
         </div>
@@ -402,7 +194,7 @@ export const Home: React.FC = () => {
           onClick={() => scrollIntoView('about')}
           style={{
             position: 'absolute',
-            bottom: '25px',
+            bottom: '20px',
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: 10,
@@ -410,11 +202,14 @@ export const Home: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            color: 'var(--text-light)',
-            fontSize: '0.78rem'
+            color: 'var(--text-muted)',
+            fontSize: '0.75rem',
+            letterSpacing: '0.05em',
+            transition: 'var(--transition-smooth)'
           }}
+          title="Scroll to Club Overview"
         >
-          <ChevronRight size={16} className="scroll-indicator-arrow" />
+          <ChevronRight size={16} style={{ transform: 'rotate(90deg)' }} />
         </div>
       </section>
 
@@ -611,6 +406,36 @@ export const Home: React.FC = () => {
                   <h3 style={{ fontSize: '1.05rem', color: '#1e293b', marginBottom: '4px' }}>{ach.title}</h3>
                   <p style={{ color: '#475569', fontSize: '0.85rem', lineHeight: 1.4 }}>{ach.description}</p>
                 </div>
+
+                {ach.image && (
+                  <div 
+                    onClick={() => {
+                      const gIndex = gallery.findIndex(g => g.image === ach.image);
+                      if (gIndex !== -1) {
+                        setLightboxData({ isOpen: true, index: gIndex });
+                      }
+                    }}
+                    style={{
+                      width: '78px',
+                      height: '78px',
+                      borderRadius: '6px',
+                      overflow: 'hidden',
+                      flexShrink: 0,
+                      cursor: 'pointer',
+                      border: '1px solid #e2e8f0',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                    }}
+                    title="Click to preview award photo"
+                  >
+                    <img 
+                      src={ach.image} 
+                      alt={ach.title} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.3s ease' }}
+                      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.08)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                    />
+                  </div>
+                )}
               </div>
             );
           })}
@@ -661,22 +486,7 @@ export const Home: React.FC = () => {
                     {proj.description}
                   </p>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '15px' }}>
-                    <span style={{ fontSize: '0.78rem', color: '#475569', fontWeight: 600 }}>Squad:</span>
-                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                      {proj.team.map((name, i) => (
-                        <span key={i} style={{
-                          fontSize: '0.75rem',
-                          color: 'var(--primary)',
-                          background: 'var(--primary-glow)',
-                          padding: '1px 6px',
-                          borderRadius: '3px'
-                        }}>
-                          {name}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  {/* Squad members temporarily hidden until updated details are provided */}
 
                   <div style={{ display: 'flex', gap: '8px', marginTop: 'auto' }}>
                     <a href={proj.github} target="_blank" rel="noopener noreferrer" className="btn-secondary" style={{
@@ -908,14 +718,15 @@ export const Home: React.FC = () => {
               flexWrap: 'wrap'
             }}>
               <img
-                src={fac.photo}
+                src={fac.photo || '/default-avatar.svg'}
                 alt={fac.name}
                 style={{
-                  width: '70px',
-                  height: '70px',
-                  borderRadius: '4px',
+                  width: '68px',
+                  height: '68px',
+                  borderRadius: '50%',
                   objectFit: 'cover',
-                  border: '1.5px solid var(--border-glass)',
+                  border: '2px solid #e2e8f0',
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.06)'
                 }}
               />
               <div>

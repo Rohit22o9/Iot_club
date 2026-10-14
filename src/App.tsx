@@ -10,13 +10,15 @@ import { AdminLogin } from './pages/AdminLogin';
 import { AdminDashboard } from './pages/AdminDashboard';
 import { MemberSignUp } from './pages/MemberSignUp';
 import { MemberDashboard } from './pages/MemberDashboard';
+import { StudentLogin } from './pages/StudentLogin';
+import { ProfileCompletion } from './pages/ProfileCompletion';
 
 // Layout manager to toggle global header/footer visibility
 const LayoutWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
   
   // Hide global navbar and footer on admin dashboards or login consoles
-  const hideLayout = ['/admin', '/admin-login', '/signup', '/member-dashboard'].includes(location.pathname);
+  const hideLayout = ['/admin', '/admin-login', '/signup', '/login', '/student-login', '/member-dashboard', '/complete-profile'].includes(location.pathname);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'var(--bg-dark)' }}>
@@ -38,10 +40,13 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/members/:year" element={<DepartmentMembers />} />
             <Route path="/profile/:id" element={<MemberProfile />} />
+            <Route path="/login" element={<StudentLogin />} />
+            <Route path="/student-login" element={<StudentLogin />} />
             <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/signup" element={<MemberSignUp />} />
             <Route path="/member-dashboard" element={<MemberDashboard />} />
+            <Route path="/complete-profile" element={<ProfileCompletion />} />
           </Routes>
         </LayoutWrapper>
       </Router>

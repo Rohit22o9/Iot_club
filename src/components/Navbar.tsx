@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { Menu, X, ShieldAlert } from 'lucide-react';
+import { Menu, X, ShieldAlert, GraduationCap } from 'lucide-react';
 import { useIoTStore } from '../data/store';
 
 export const Navbar: React.FC = () => {
@@ -70,40 +70,48 @@ export const Navbar: React.FC = () => {
         top: 0,
         left: 0,
         right: 0,
-        height: '80px',
+        height: '76px',
         zIndex: 100,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '0 5%',
         transition: 'var(--transition-smooth)',
-        borderBottom: '1px solid #cbd5e1',
-        background: '#ffffff',
-        boxShadow: '0 1px 3px rgba(60,64,67,0.08)'
+        borderBottom: '1px solid #e2e8f0',
+        background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'rgba(255, 255, 255, 0.88)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+        boxShadow: isScrolled ? '0 4px 20px rgba(0, 0, 0, 0.06)' : '0 1px 3px rgba(0, 0, 0, 0.04)'
       }}
     >
       {/* Logo */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div 
+        onClick={() => handleNavClick('hero')}
+        style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+      >
         <span style={{ fontSize: '1.5rem' }}>
           {homepageContent.logo}
         </span>
-        <span
-          onClick={() => handleNavClick('hero')}
-          style={{
-            fontFamily: 'var(--font-heading)',
-            fontWeight: 700,
-            fontSize: '1.2rem',
-            color: 'var(--primary)',
-            cursor: 'pointer',
-            letterSpacing: '-0.3px'
-          }}
-        >
-          {homepageContent.clubName}
-        </span>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span
+            style={{
+              fontFamily: 'var(--font-heading)',
+              fontWeight: 800,
+              fontSize: '1.25rem',
+              color: '#0f172a',
+              letterSpacing: '-0.3px',
+            }}
+          >
+            {homepageContent.clubName}
+          </span>
+          <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-mono)', color: '#059669', letterSpacing: '0.8px', fontWeight: 600 }}>
+            ● ONLINE // V4.2
+          </span>
+        </div>
       </div>
 
       {/* Desktop Links */}
-      <div className="nav-desktop-links" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+      <div className="nav-desktop-links" style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
         {navLinks.map((link) => (
           <button
             key={link.id}
@@ -111,13 +119,13 @@ export const Navbar: React.FC = () => {
             style={{
               background: 'none',
               border: 'none',
-              color: 'var(--text-light)',
+              color: '#334155',
               fontFamily: 'var(--font-main)',
               fontWeight: 500,
               fontSize: '0.88rem',
               cursor: 'pointer',
-              padding: '6px 12px',
-              borderRadius: '4px',
+              padding: '6px 14px',
+              borderRadius: '6px',
               transition: 'var(--transition-smooth)',
             }}
             className="nav-link-hover"
@@ -126,18 +134,40 @@ export const Navbar: React.FC = () => {
           </button>
         ))}
         <Link
+          to="/login"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            color: '#059669',
+            textDecoration: 'none',
+            fontSize: '0.86rem',
+            fontWeight: 600,
+            padding: '7px 14px',
+            borderRadius: '6px',
+            background: '#ecfdf5',
+            border: '1px solid #a7f3d0',
+            transition: 'var(--transition-smooth)',
+            marginLeft: '6px'
+          }}
+          className="student-nav-button"
+        >
+          <GraduationCap size={15} /> Student Portal
+        </Link>
+        <Link
           to="/admin-login"
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: '6px',
-            color: '#ffffff',
+            color: '#2563eb',
             textDecoration: 'none',
-            fontSize: '0.88rem',
+            fontSize: '0.86rem',
             fontWeight: 600,
-            padding: '8px 14px',
-            borderRadius: '4px',
-            background: 'var(--primary)',
+            padding: '7px 14px',
+            borderRadius: '6px',
+            background: '#eff6ff',
+            border: '1px solid #bfdbfe',
             transition: 'var(--transition-smooth)'
           }}
           className="admin-nav-button"
@@ -151,10 +181,12 @@ export const Navbar: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="nav-mobile-hamburger"
         style={{
-          background: 'none',
-          border: 'none',
-          color: 'var(--text-white)',
+          background: '#ffffff',
+          border: '1px solid #cbd5e1',
+          borderRadius: '6px',
+          color: '#0f172a',
           cursor: 'pointer',
+          padding: '6px',
           display: 'none',
         }}
       >
@@ -166,18 +198,18 @@ export const Navbar: React.FC = () => {
         <div
           style={{
             position: 'absolute',
-            top: '85px',
+            top: '80px',
             left: '4%',
             right: '4%',
             display: 'flex',
             flexDirection: 'column',
-            gap: '10px',
-            padding: '16px',
+            gap: '8px',
+            padding: '18px',
             zIndex: 99,
             background: '#ffffff',
-            border: '1px solid #cbd5e1',
-            borderRadius: '6px',
-            boxShadow: '0 4px 6px rgba(0,0,0,0.08)'
+            border: '1px solid #e2e8f0',
+            borderRadius: '10px',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)'
           }}
         >
           {navLinks.map((link) => (
@@ -187,19 +219,43 @@ export const Navbar: React.FC = () => {
               style={{
                 background: 'none',
                 border: 'none',
-                color: 'var(--text-gray)',
+                color: '#1e293b',
                 fontFamily: 'var(--font-main)',
                 fontWeight: 500,
                 fontSize: '0.95rem',
                 cursor: 'pointer',
                 textAlign: 'left',
-                padding: '6px 0',
+                padding: '8px 10px',
+                borderRadius: '6px',
                 borderBottom: '1px solid #f1f5f9',
+                transition: 'var(--transition-smooth)'
               }}
+              className="nav-link-hover"
             >
               {link.name}
             </button>
           ))}
+          <Link
+            to="/login"
+            onClick={() => setIsOpen(false)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              color: '#ffffff',
+              textDecoration: 'none',
+              background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+              padding: '11px',
+              borderRadius: '6px',
+              textAlign: 'center',
+              fontWeight: 650,
+              marginTop: '8px',
+              boxShadow: '0 2px 8px rgba(5, 150, 105, 0.25)'
+            }}
+          >
+            <GraduationCap size={16} /> Student Portal
+          </Link>
           <Link
             to="/admin-login"
             onClick={() => setIsOpen(false)}
@@ -208,17 +264,18 @@ export const Navbar: React.FC = () => {
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px',
-              color: '#fff',
+              color: '#ffffff',
               textDecoration: 'none',
-              background: 'var(--primary)',
-              padding: '10px',
-              borderRadius: '4px',
+              background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+              padding: '11px',
+              borderRadius: '6px',
               textAlign: 'center',
-              fontWeight: 600,
-              marginTop: '6px'
+              fontWeight: 650,
+              marginTop: '4px',
+              boxShadow: '0 2px 8px rgba(37, 99, 235, 0.25)'
             }}
           >
-            <ShieldAlert size={15} /> Admin Portal
+            <ShieldAlert size={16} /> Admin Portal
           </Link>
         </div>
       )}
@@ -235,10 +292,19 @@ export const Navbar: React.FC = () => {
         }
         .nav-link-hover:hover {
           color: var(--primary) !important;
-          background: #f1f5f9 !important;
+          background: #eff6ff !important;
+        }
+        .student-nav-button:hover {
+          background: #059669 !important;
+          color: #ffffff !important;
+          border-color: #059669 !important;
+          transform: translateY(-1px);
         }
         .admin-nav-button:hover {
-          background: var(--primary-hover) !important;
+          background: #2563eb !important;
+          color: #ffffff !important;
+          border-color: #2563eb !important;
+          transform: translateY(-1px);
         }
       `}</style>
     </nav>

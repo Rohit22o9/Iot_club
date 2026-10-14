@@ -48,6 +48,8 @@ function doPost(e) {
     
     if (action === "signup") {
       return handleSignUp(spreadsheet, postData.payload);
+    } else if (action === "admin_register_student") {
+      return handleAdminRegisterStudent(spreadsheet, postData.payload);
     } else if (action === "login") {
       return handleLogin(spreadsheet, postData.payload);
     } else if (action === "update_profile") {
@@ -171,6 +173,78 @@ function handleSignUp(spreadsheet, payload) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+// Handle Admin Registering Student with Auto-Generated Credentials
+function handleAdminRegisterStudent(spreadsheet, payload) {
+  const sheet = spreadsheet.getSheetByName("Members");
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+  
+  const emailColIdx = headers.map(h => String(h).toLowerCase().trim()).indexOf("email");
+  if (emailColIdx !== -1) {
+    for (let r = 1; r < data.length; r++) {
+      if (String(data[r][emailColIdx]).toLowerCase().trim() === String(payload.email).toLowerCase().trim()) {
+        return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Email is already registered in the directory." }))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
+    }
+  }
+
+  const id = "m_" + new Date().getTime();
+  const newRow = new Array(headers.length).fill("");
+  const defaultPhoto = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=300";
+
+  for (let c = 0; c < headers.length; c++) {
+    const header = String(headers[c]).toLowerCase().trim();
+    if (header === "id") newRow[c] = id;
+    else if (header === "email") newRow[c] = payload.email || "";
+    else if (header === "password") newRow[c] = payload.password || "";
+    else if (header === "name") newRow[c] = payload.name || "Member";
+    else if (header === "year") newRow[c] = (payload.year || "SE").toUpperCase();
+    else if (header === "position") newRow[c] = payload.position || "Student Developer";
+    else if (header === "photo") newRow[c] = defaultPhoto;
+    else if (header === "bio") newRow[c] = payload.bio || "IoT Club Member";
+    else if (header === "department") newRow[c] = payload.department || "Engineering";
+    else if (header === "isfirstlogin") newRow[c] = "true";
+    else if (header === "profilecompleted") newRow[c] = "false";
+    else if (header === "registeredbyadmin") newRow[c] = "true";
+    else if (header === "skillstech") newRow[c] = JSON.stringify(["Embedded Systems", "IoT Prototyping"]);
+    else if (header === "skillssoft") newRow[c] = JSON.stringify(["Problem Solving", "Teamwork"]);
+    else if (header === "education") newRow[c] = JSON.stringify(["University Student"]);
+    else if (header === "projects") newRow[c] = "[]";
+    else if (header === "achievements") newRow[c] = "[]";
+    else if (header === "certifications") newRow[c] = "[]";
+  }
+
+  sheet.appendRow(newRow);
+
+  // Optional: Send Email via Google Apps Script MailApp if available
+  let emailDispatched = false;
+  try {
+    if (typeof MailApp !== "undefined" && payload.email) {
+      MailApp.sendEmail({
+        to: payload.email,
+        subject: "Welcome to IoT Club, " + payload.name + "! Your Student Login Credentials",
+        htmlBody: "<div style='font-family: sans-serif; background: #060913; color: #f1f5f9; padding: 25px; border-radius: 10px;'>" +
+          "<h2 style='color: #00f2fe;'>Welcome to IoT Club!</h2>" +
+          "<p>Hello <strong>" + payload.name + "</strong>, your official member credentials are ready:</p>" +
+          "<p><strong>Email:</strong> " + payload.email + "<br/><strong>Temporary Password:</strong> <code style='color: #00f5a0; font-size: 16px;'>" + payload.password + "</code></p>" +
+          "<p>Please log in and complete your technical profile to activate your member badge.</p>" +
+          "</div>"
+      });
+      emailDispatched = true;
+    }
+  } catch (mailErr) {
+    // MailApp logging
+  }
+
+  return ContentService.createTextOutput(JSON.stringify({ 
+    status: "success", 
+    memberId: id,
+    emailSent: emailDispatched
+  }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
 // Handle Student Member Login
 function handleLogin(spreadsheet, payload) {
   const sheet = spreadsheet.getSheetByName("Members");
@@ -181,14 +255,24 @@ function handleLogin(spreadsheet, payload) {
   const passCol = headers.indexOf("password");
   const idCol = headers.indexOf("id");
   const nameCol = headers.indexOf("name");
+  const firstLoginCol = headers.indexOf("isfirstlogin");
+  const completedCol = headers.indexOf("profilecompleted");
   
   for (let r = 1; r < data.length; r++) {
     if (String(data[r][emailCol]).toLowerCase().trim() === String(payload.email).toLowerCase().trim() && 
         String(data[r][passCol]) === String(payload.password)) {
+      
+      const isFirstLogin = firstLoginCol !== -1 ? 
+        (data[r][firstLoginCol] === true || String(data[r][firstLoginCol]).toLowerCase() === "true") : false;
+      const profileCompleted = completedCol !== -1 ? 
+        (data[r][completedCol] === true || String(data[r][completedCol]).toLowerCase() === "true") : true;
+
       return ContentService.createTextOutput(JSON.stringify({ 
         status: "success", 
         memberId: data[r][idCol],
-        name: data[r][nameCol]
+        name: data[r][nameCol],
+        isFirstLogin: isFirstLogin,
+        profileCompleted: profileCompleted
       }))
         .setMimeType(ContentService.MimeType.JSON);
     }

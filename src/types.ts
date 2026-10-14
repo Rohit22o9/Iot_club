@@ -38,6 +38,11 @@ export interface Member {
   email?: string;
   password?: string;
   photoBase64?: string;
+  department?: string;
+  isFirstLogin?: boolean;
+  profileCompleted?: boolean;
+  registeredByAdmin?: boolean;
+  tempPassword?: string;
 }
 
 export interface Project {
@@ -58,6 +63,7 @@ export interface Achievement {
   date: string;
   award: string;
   category: 'hackathon' | 'competition' | 'paper' | 'certification';
+  image?: string;
 }
 
 export interface Activity {
